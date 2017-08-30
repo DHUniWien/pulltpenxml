@@ -1,0 +1,22 @@
+# t-pen.org credentials
+username: FILLMEIN
+password: FILLMEIN
+
+# boolean
+debug: true
+
+# filename
+logfile: ./backup.log
+
+loglevel: DEBUG
+
+# timeout when accessing t-pen
+timeout: 120
+
+# give up after this many timeouts
+max_errors: 5
+
+# howto access T-PEN
+uri_index: http://t-pen.org/TPEN/index.jsp
+uri_login:  http://t-pen.org/TPEN/login.jsp
+uri_project: http://t-pen.org/TPEN/project/
