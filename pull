@@ -2,9 +2,10 @@
 
 import argparse
 import json
+import os
 import sys
 import yaml
-from config import metadata, special_chars, numeric_parser, transcription_filter
+from config import metadata, special_chars, numeric_parser, transcription_filter, postprocess
 from lxml import etree
 from tpen import TPen
 from tpen2tei.parse import from_sc
@@ -26,7 +27,14 @@ if __name__ == '__main__':
     argp = argparse.ArgumentParser(description="Test the conversion of a particular MS to XML")
     argp.add_argument('identifier')
     argp.add_argument('--config', default='./tpen.yml')
+    argp.add_argument('--members', default='./members.json')
     opts = argp.parse_args()
+
+    # Parse the list of project members
+    members = None
+    if os.path.isfile(opts.members):
+        with open(opts.members, encoding="utf-8") as f:
+            members = json.load(f)
 
     # Get the config and initialise T-PEN
     with open(opts.config) as y:
@@ -42,7 +50,9 @@ if __name__ == '__main__':
                   metadata=metadata,
                   special_chars=special_chars,
                   numeric_parser=numeric_parser,
-                  text_filter=transcription_filter)
+                  text_filter=transcription_filter,
+                  postprocess=postprocess,
+                  members=members)
 
     # Return if we were successful
     if xml is not None:
