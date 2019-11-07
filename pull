@@ -12,6 +12,8 @@ from tpen2tei.parse import from_sc
 
 
 def pull_ms(directory, projectlist):
+    if len(projectlist) == 0:
+        return None
     for p in projectlist:
         directory.project(project=p)
     first = projectlist.pop(0)
@@ -46,7 +48,12 @@ if __name__ == '__main__':
                       key=lambda e: e.get('label'))
 
     # Merge the JSON into one object and XMLify it
-    xml = from_sc(pull_ms(tpenobj, testinfo),
+    jsonspec = pull_ms(tpenobj, testinfo)
+    if jsonspec is None:
+        print("No projects found with %s in title. Check login credentials in tpen.yml?" % opts.identifier)
+        exit()
+
+    xml = from_sc(jsonspec,
                   metadata=metadata,
                   special_chars=special_chars,
                   numeric_parser=numeric_parser,
