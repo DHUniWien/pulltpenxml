@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
     # Get the config and initialise T-PEN
     with open(opts.config) as y:
-        config = yaml.load(y)
+        config = yaml.load(y, Loader=yaml.Loader)
     tpenobj = TPen(cfg=config)
 
     # Pick out the relevant projects from the list, sort by label, and fetch them

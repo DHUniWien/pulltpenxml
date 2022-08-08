@@ -1,0 +1,6 @@
+PyYAML
+lxml
+tpen2tei
+requests
+beautifulsoup4
+
