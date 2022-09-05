@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import logging
 import os
 import sys
 import yaml
@@ -41,6 +42,17 @@ if __name__ == '__main__':
     # Get the config and initialise T-PEN
     with open(opts.config) as y:
         config = yaml.load(y, Loader=yaml.Loader)
+
+    logargs = {
+        'format': '%(asctime)s %(message)s',
+        'level': config.get('loglevel', 'INFO')
+    }
+    if 'logfile' in config:
+        logargs['filename'] = config.get('logfile')
+    else:
+        logargs['stream'] = sys.stderr
+
+    logging.basicConfig (**logargs)
     tpenobj = TPen(cfg=config)
 
     # Pick out the relevant projects from the list, sort by label, and fetch them
